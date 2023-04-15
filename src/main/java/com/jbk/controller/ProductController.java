@@ -29,16 +29,20 @@ public class ProductController {
 	@Autowired
 	ProductService service;
 
+	@GetMapping(value = "/")
+	public String welcome() {
+		return "Welcome";
+	}
+
 	@PostMapping(value = "/save-product")
 	public ResponseEntity<Boolean> saveProduct(@Valid @RequestBody Product product) {
-		
-		
+
 		boolean isAdded = service.saveProduct(product);
 		if (isAdded) {
 			return new ResponseEntity<Boolean>(isAdded, HttpStatus.CREATED);
 		} else {
-			 throw new ResourceAlreadyExistException("Resource Already Exists");
-			
+			throw new ResourceAlreadyExistException("Resource Already Exists");
+
 		}
 	}
 
@@ -82,8 +86,7 @@ public class ProductController {
 			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 		}
 	}
-	
-	
+
 	@GetMapping(value = "/sortbyname-desc")
 	public ResponseEntity<List<Product>> sortProductsByName_DESC() {
 		List<Product> products = service.sortProductsByName_DESC();
@@ -93,7 +96,7 @@ public class ProductController {
 			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 		}
 	}
-	
+
 	@GetMapping(value = "/get-maxprice-products")
 	public ResponseEntity<List<Product>> getMaxPriceProducts() {
 		List<Product> products = service.getMaxPriceProducts();
@@ -103,31 +106,31 @@ public class ProductController {
 			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 		}
 	}
-	
+
 	@GetMapping(value = "/get-maxprice")
 	public ResponseEntity<Double> getMaxPrice() {
 		double maxPrice = service.getMaxPrice();
-		if (maxPrice>0) {
+		if (maxPrice > 0) {
 			return new ResponseEntity<Double>(maxPrice, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Double>(maxPrice, HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@GetMapping(value = "/count-sumof-product-price")
 	public ResponseEntity<Double> countSumOfProductPrice() {
 		double sumOfPrice = service.countSumOfProductPrice();
-		if (sumOfPrice>0) {
+		if (sumOfPrice > 0) {
 			return new ResponseEntity<Double>(sumOfPrice, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Double>(sumOfPrice, HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@GetMapping(value = "/get-total-products-count")
 	public ResponseEntity<Integer> getTotalCountOfProducts() {
 		int totalProductsCount = service.getTotalCountOfProducts();
-		if (totalProductsCount>0) {
+		if (totalProductsCount > 0) {
 			return new ResponseEntity<Integer>(totalProductsCount, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Integer>(totalProductsCount, HttpStatus.NO_CONTENT);
@@ -143,15 +146,12 @@ public class ProductController {
 			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 		}
 	}
-	
-	
+
 	@PostMapping(value = "/import-sheet")
-	public ResponseEntity<String> importSheet(@RequestParam MultipartFile myFile){
+	public ResponseEntity<String> importSheet(@RequestParam MultipartFile myFile) {
 		String msg = service.upploadSheet(myFile);
 		return ResponseEntity.ok(msg);
-		
+
 	}
-	
-	
 
 }
